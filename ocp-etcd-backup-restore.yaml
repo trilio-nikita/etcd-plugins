@@ -1,0 +1,56 @@
+apiVersion: krew.googlecontainertools.github.com/v1alpha2
+kind: Plugin
+metadata:
+  name: ocp-etcd-backup-restore
+spec:
+  homepage: https://github.com/trilioData/tvk-interop-plugins/blob/main/docs/ocp-etcd-backup-restore/README.md
+  shortDescription: Plugin to Install/Configure/Test TVK ocp-etcd-backup-restore
+  version: v1.0.0
+  caveats: |
+    Curl and Git neeed to be installed on system for Krew index update to work properly
+  platforms:
+  - selector:
+      matchExpressions:
+      - key: os
+        operator: In
+        values:
+        - darwin
+        - linux
+    uri: https://github.com/trilioData/tvk-interop-plugins/releases/download/OCP_ETCD_BACKUP_RESTORE_VERSION/ocp-etcd-backup-restore.tar.gz
+    sha256: 7695811e5ea37a6ae4af9620c39c076681a49872d2cf01defe4f6551d4febf23
+    bin: ocp-etcd-backup-restore
+    files:
+    - from: ocp-etcd-backup-restore/*
+      to: .
+
+  description: |
+    ocp-etcd-backup-restore plugin is use to take ETCD backup to and perform ETCD restore from TVK target on OCP cluster.
+    > Check available flags for ocp-etcd-backup-restore plugin with :-
+    kubectl ocp-etcd-backup-restore --help
+    --------------------------------------------------------------
+    usage: ETCD Backup and restore on OCP. Available flags: -backup -restore.
+       [-h] [-backup] [-restore] [--target-name TARGET_NAME]
+       [--target-namespace TARGET_NAMESPACE] --api-server-url API_SERVER_URL
+       --ocp-cluster-user OCP_CLUSTER_USER --ocp-cluster-pass OCP_CLUSTER_PASS
+       [-p] [--log-location LOG_LOC]
+
+    Arguments:
+        -h, --help            show this help message and exit
+        -backup
+        -restore
+        --target-name TARGET_NAME
+                        The name of a single datastore on which etcd backup
+                        needs to be shared
+        --target-namespace TARGET_NAMESPACE
+                        Namespace name where the target resides.
+        --api-server-url API_SERVER_URL
+                        Api server URL to login cluster.
+        --ocp-cluster-user OCP_CLUSTER_USER
+                        username used to login cluster.
+        --ocp-cluster-pass OCP_CLUSTER_PASS
+                        password to login cluster
+        -p                    If users want to run only post restore tasks
+        --log-location LOG_LOC
+                        Log file name along with path where the logs should be
+                        save default - /tmp/etcd-ocp-backup.log
+    -----------------------------------------------------------------------
